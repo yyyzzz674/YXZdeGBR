@@ -7,6 +7,106 @@
     <title>Document</title>
   </head>
   <body>
-    杨小卓的锅包肉 测试
+    <h2>杨小卓的锅包肉</h2>
+    <div>
+      <p>
+        <span>现在是</span>
+        <span id="now-time"></span>
+      </p>
+      <p>
+        <span>我们认识了</span>
+        <i id="renshi-interval-days"></i>
+        <span>天</span>
+        <i id="renshi-interval-hours"></i>
+        <span>小时</span>
+        <i id="renshi-interval-minutes"></i>
+        <span>分钟</span>
+        <i id="renshi-interval-seconds"></i>
+        <span>秒</span>
+      </p>
+      <p>
+        <span>初次见面的</span>
+        <i id="jianmian-interval-days"></i>
+        <span>天</span>
+        <i id="jianmian-interval-hours"></i>
+        <span>小时</span>
+        <i id="jianmian-interval-minutes"></i>
+        <span>分钟</span>
+        <i id="jianmian-interval-seconds"></i>
+        <span>秒</span>
+      </p>
+      <p>
+        <span>对你表白的</span>
+        <i id="biaobai-interval-days"></i>
+        <span>天</span>
+        <i id="biaobai-interval-hours"></i>
+        <span>小时</span>
+        <i id="biaobai-interval-minutes"></i>
+        <span>分钟</span>
+        <i id="biaobai-interval-seconds"></i>
+        <span>秒</span>
+      </p>
+      <p>
+        <span>你永远可以相信杨小卓</span>
+      </p>
+      <p>
+        <span>爱你</span>
+      </p>
+    </div>
   </body>
+  <script>
+    const computeDays = function (time1, time2) {
+      let interval = time2 - time1;
+      return Math.floor(interval / (24 * 3600 * 1000));
+    };
+    const computeHours = function (time1, time2) {
+      let interval = time2 - time1;
+      let leave1 = interval % (24 * 3600 * 1000); //计算天数后剩余的毫秒数
+      return Math.floor(leave1 / (3600 * 1000));
+    };
+    const computeMinutes = function (time1, time2) {
+      let interval = time2 - time1;
+      let leave1 = interval % (24 * 3600 * 1000);
+      let leave2 = leave1 % (3600 * 1000); //计算小时数后剩余的毫秒数
+      return Math.floor(leave2 / (60 * 1000));
+    };
+    const computeSeconds = function (time1, time2) {
+      let interval = time2 - time1;
+      let leave1 = interval % (24 * 3600 * 1000);
+      let leave2 = leave1 % (3600 * 1000);
+      let leave3 = leave2 % (60 * 1000); //计算分钟数后剩余的毫秒数
+      return Math.floor(leave3 / 1000);
+    };
+
+    const setNowTime = function () {
+      let nowTime = new Date();
+      document.getElementById("now-time").innerHTML = nowTime;
+    };
+    const setTimeStr = function (str, domTag) {
+      let startTime = new Date(str);
+      let nowTime = new Date();
+      document.getElementById(domTag + "-interval-days").innerHTML =
+        computeDays(startTime, nowTime);
+      document.getElementById(domTag + "-interval-hours").innerHTML =
+        computeHours(startTime, nowTime);
+      document.getElementById(domTag + "-interval-minutes").innerHTML =
+        computeMinutes(startTime, nowTime);
+      document.getElementById(domTag + "-interval-seconds").innerHTML =
+        computeSeconds(startTime, nowTime);
+    };
+
+    window.addEventListener("load", () => {
+      let document = window.document;
+      setNowTime();
+      setTimeStr("2021/02/17 20:00:00", "renshi");
+      setTimeStr("2021/03/05 19:30:00", "jianmian");
+      setTimeStr("2021/03/07 09:00:00", "biaobai");
+      setInterval(() => {
+        setNowTime();
+        setTimeStr("2021/02/17 20:00:00", "renshi");
+        setTimeStr("2021/03/05 19:30:00", "jianmian");
+        setTimeStr("2021/03/07 09:00:00", "biaobai");
+      }, 1000);
+    });
+  </script>
 </html>
